@@ -1,2 +1,5 @@
-# st
-st terminal arch PKBUILD with patches and custom config. st is a simple terminal implementation for X.
+### st - simple terminal
+st is a simple terminal emulator for X which sucks less.
+
+This is PKBUILD simply includes the scrollback patches.
+
