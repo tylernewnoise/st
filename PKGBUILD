@@ -4,25 +4,21 @@
 # Contributor: Christoph Vigano <mail@cvigano.de>
 
 pkgname=st
-pkgver=0.8.2
+pkgver=0.8.4
 pkgrel=1
 pkgdesc='A simple virtual terminal emulator for X.'
 arch=('i686' 'x86_64' 'armv7h')
 license=('MIT')
 depends=(libxft)
 url=https://st.suckless.org
-_patches=("https://st.suckless.org/patches/scrollback/st-scrollback-0.8.2.diff"
-          "https://st.suckless.org/patches/scrollback/st-scrollback-mouse-0.8.2.diff")
+_patches=("https://st.suckless.org/patches/scrollback/st-scrollback-0.8.4.diff"
+          "https://st.suckless.org/patches/blinking_cursor/st-blinking_cursor-20200531-a2a7044.diff")
 source=(https://dl.suckless.org/$pkgname/$pkgname-$pkgver.tar.gz
-        terminfo.patch
-        README.terminfo.rst
         ${_patches[@]}
         )
-sha256sums=('aeb74e10aa11ed364e1bcc635a81a523119093e63befd2f231f8b0705b15bf35'
-            'bf6c8b73a606a8e513c7919d91f93ed7aeb5f44e80269bb244cc01659145a5ea'
-            '0ebcbba881832adf9c98ce9fe7667c851d3cc3345077cb8ebe32702698665be2'
-            '9c5aedce2ff191437bdb78aa70894c3c91a47e1be48465286f42d046677fd166'
-            '6103a650f62b5d07672eee9e01e3f4062525083da6ba063e139ca7d9fd58a1ba')
+sha256sums=('d42d3ceceb4d6a65e32e90a5336e3d446db612c3fbd9ebc1780bc6c9a03346a6'
+            '418e1c5df11105482f13a008218c89eadb974630c25b4a6ff3da763dc2560e44'
+            'f05487e7f6d4d0d81f44f5a317b0f9bbe6d340fd80c9326aa4bae8da4127aa2d')
 _sourcedir=$pkgname-$pkgver
 _makeopts="--directory=$_sourcedir"
 
@@ -30,14 +26,8 @@ prepare() {
   for patch in "${_patches[@]}"; do
       pwd
       echo "Applying patch $(basename $patch)..."
-      # echo $(basename $patch)
-      # echo $_sourcedir
-      # patch -Np1 -i "$srcdir/$(basename $patch)"
-      # pwd
       patch --directory="$_sourcedir" --strip=1 < $(basename $patch)
   done
-
-  patch --directory="$_sourcedir" --strip=0 < terminfo.patch
 
   # This package provides a mechanism to provide a custom config.h. Multiple
   # configuration states are determined by the presence of two files in
@@ -83,6 +73,5 @@ package() {
   make $_makeopts PREFIX=/usr DESTDIR="$pkgdir" install
   install $installopts "$licdir" "$_sourcedir/LICENSE"
   install $installopts "$docdir" "$_sourcedir/README"
-  install $installopts "$docdir" README.terminfo.rst
   install $installopts "$shrdir/$pkgname" "$_sourcedir/st.info"
 }
