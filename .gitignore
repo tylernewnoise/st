@@ -1,0 +1,8 @@
+config.def.h
+pkg/
+src/
+st-0.8.4-2-x86_64.pkg.tar.zst
+st-0.8.4.tar.gz
+st-blinking_cursor-20200531-a2a7044.diff
+st-scrollback-0.8.4.diff
+
